@@ -1,0 +1,13 @@
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 1
+names: ['dr']
+
+roboflow:
+  workspace: 030-f2rsw
+  project: flydrone
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/030-f2rsw/flydrone/dataset/1
