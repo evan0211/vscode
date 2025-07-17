@@ -25,6 +25,11 @@ async def on_ready():
     print(f'已登入為 {client.user}')
 
 @client.event
+async def on_ready():
+    # 設定狀態為在線並顯示正在玩遊戲
+    await client.change_presence(activity=discord.Game("Jable"))
+    print(f'已登入為 {client.user}')
+@client.event
 async def on_message(message):
     if message.author == client.user:
         return  # 防止機器人自己回覆自己
@@ -43,7 +48,32 @@ async def on_message(message):
 
     elif message.content.startswith('打瓦'):
         await message.channel.send(" <@&1324711416652894239> 上線")
-        
+
+    elif  "不是" in message.content:
+        image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWkxNuJ-1sagi-25nANouVbTiTywFk6PwWpw&s"  # 替換為有效圖片 URL
+        embed = discord.Embed(
+            title="不是R！",
+            description=(
+                "欸笑死人欸\n"
+                "他剛剛打我我有退嗎\n"
+                "我一步都沒有退欸\n"
+                "欸你們裁判是怎麼判的啊\n"
+                "欸不是\n"
+                "我一步都沒有退然後判我輸喔\n"
+                "被我打到流鼻血的贏喔\n"
+                "有沒有邏輯啊不是啊\n"
+                "我把他打到噴鼻血 這樣算我輸喔\n"
+                "他打我 我一步都沒有退ㄟ\n"
+                "啊這樣算我輸喔\n"
+                "你們裁判怎麼判的啦\n"
+                "好啦 我要回家了啦\n"
+                "50萬匯給你啦 乞丐"
+            ),
+            color=discord.Color.from_rgb(1, 1, 1)
+        )
+        embed.set_image(url=image_url)  # 嵌入圖片
+        await message.channel.send(embed=embed)
+
     # 處理 !flood 命令，模擬洗版
     elif message.content.startswith('!f'):
         # 確保指令有設定要發送的次數
@@ -70,7 +100,7 @@ async def on_message(message):
     # 確保指令處理正常運作
     await client.process_commands(message)
 
-spec = importlib.util.spec_from_file_location("data", r"vscode\bot\data.py")  # 請確保此路徑正確
+spec = importlib.util.spec_from_file_location("data", r"bot\data.py")  # 請確保此路徑正確
 data_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(data_module)
 
@@ -87,19 +117,39 @@ async def drink(ctx):
     await ctx.send(f"隨機抽選的飲品是：{random_choice}")
 
 
-
 @client.command(name="av")
-async def recommend(ctx):
+async def recommend(ctx, actress: str = None):
     av_data = data_module.av_data  # 從檔案中獲取字典
     
-    # 隨機選擇一位女優
-    actress = random.choice(list(av_data.keys()))
+    # 如果用戶指定了女優名稱
+    if actress:
+        # 檢查女優名稱是否在字典中
+        if actress in av_data:
+            work = random.choice(av_data[actress]).split(' ')
+            await ctx.send(f"推薦女優：{actress}\n推薦作品：{work[1]}\nhttps://missav.ws/cn/{work[0]}")
+        else:
+            await ctx.send(f"找不到名為 {actress} 的女優。")
+    else:
+        # 隨機選擇一位女優
+        actress = random.choice(list(av_data.keys()))
+        work = random.choice(av_data[actress]).split(' ')
+        await ctx.send(f"推薦女優：{actress}\n推薦作品：{work[1]}\nhttps://missav.ws/cn/{work[0]}")
+@client.command(name="list_av")
+async def list_av(ctx):
+    av_data = data_module.av_data  # 從文件中獲取字典
+
+    # 獲取所有女優名稱
+    actresses = list(av_data.keys())
+
+    # 檢查是否有女優資料
+    if not actresses:
+        await ctx.send("目前沒有女優資料。")
+        return
     
-    # 隨機選擇一部作品
-    work = random.choice(av_data[actress])
-    
-    # 發送結果
-    await ctx.send(f"推薦女優：**{actress}**\n推薦作品：**{work}**")
+    # 發送所有女優的名字
+    actress_list = "\n".join(actresses)
+    await ctx.send(f"目前所有女優：\n{actress_list}")
+
 
 # 使用從 .env 文件中加載的 token
 client.run(token)

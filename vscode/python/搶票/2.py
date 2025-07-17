@@ -1,68 +1,92 @@
-import requests
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time 
-import matplotlib.pyplot as plt
-import cv2
-import os
-import urllib
-from PIL import Image 
-import numpy as np
-import matplotlib.pyplot as plt
+from selenium.webdriver.common.keys import Keys
+from tkinter import *
+from tkinter import messagebox
 
-driver = webdriver.Chrome()
+def login():
 
-driver.get("https://tixcraft.com/ticket/ticket/24_vashhsu/17286/1/94")
-driver.maximize_window()
-time.sleep(0.5)
+    driver = webdriver.Chrome()  # 或你想用的瀏覽器驅動
+    driver.get("https://ticket-training.onrender.com/")  # 或是正確的活動網址
 
-captcha_element = driver.find_element(By.ID, 'TicketForm_verifyCode-image')
-captcha_url = captcha_element.get_attribute('src')
-response = requests.get(captcha_url)
+ 
+    # #選場次
+    # choose = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CLASS_NAME, "thumb-shadow")))
+    # driver.execute_script("arguments[0].scrollIntoView(true);", choose)
+    # driver.execute_script("arguments[0].click();", choose)
 
-local_path = 'images'
-res = urllib.request.urlopen(captcha_url)
-file_path = open(os.path.join(local_path , 't.jpg'),'wb')
-size = 0
-while True:
-    info = res.read(10000)
-    if len(info) < 1:
-        break
-    size = size + len(info)
-    file_path.write(info)
-print(f'已下載:',size)
-file_path.close()
-res.close()
+    
+    
+    confirmRead = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "confirmRead")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", confirmRead)
+    driver.execute_script("arguments[0].click();", confirmRead)
+    closeModal = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "closeModal")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", closeModal)
+    driver.execute_script("arguments[0].click();", closeModal)
 
-imag = cv2.imread('./images/t.jpg')
-
-kernel = np.ones((4,4), np.uint8)
-erosion = cv2.erode(imag, kernel, iterations=1)
-blurred = cv2.GaussianBlur(erosion, (5,5), 0)
-edged = cv2.Canny(blurred,30,150)
-dilation = cv2.dilate(edged,kernel,iterations=1)
-
-contours, hierarchy = cv2.findContours(dilation.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-cnts = sorted([(c, cv2.boundingRect(c)[0]) for c in contours], key = lambda x:x[1])
-ary = []
-for (c,_) in cnts:
-    (x, y, w, h) = cv2.boundingRect(c)
-    # print(x,y,w,h)
-    if w>15 and h>15:
-        ary.append((x,y,w,h))
-
-fig = plt.figure()
-for id, (x,y,w,h) in enumerate(ary):
-    roi = dilation[y:y+h, x:x+w]
-    thresh = roi.copy()
-    a = fig.add_subplot(1,len(ary), id + 1)
-    plt.imshow(thresh)
-    plt.show()
+    input_box = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "countdownInput")))
+    input_box.clear()
+    input_box.send_keys("1")
+    
+    startButton = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "startButton")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", startButton)
+    driver.execute_script("arguments[0].click();", startButton)
+    time.sleep(1)
+    #按立即購票
+    open_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "active")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", open_button)
+    driver.execute_script("arguments[0].click();", open_button)
 
 
+    #按立即訂購
+    button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "purchase-button")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", button) 
+    driver.execute_script("arguments[0].click();", button) 
 
 
+    input_box = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, "memberId")))
+    input_box.clear()
+    input_box.send_keys("1")
+
+    button1 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME , "submit-button")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", button1) 
+    driver.execute_script("arguments[0].click();", button1) 
+    
+    WebDriverWait(driver, 10).until(EC.alert_is_present())
+    alert = driver.switch_to.alert
+    alert.accept()
+    #選座位
+    seat = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME , "seat-item")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", seat) 
+    driver.execute_script("arguments[0].click();", seat) 
+
+    #選擇人數
+    select = Select(driver.find_element(By.CLASS_NAME , "quantity-select")) 
+    select.select_by_value('2') 
+
+    #勾同意
+    check = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "terms-checkbox")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", check)
+    driver.execute_script("arguments[0].click();", check)
+
+    wait_input = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "TicketForm_verifyCode")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", wait_input)
+    driver.execute_script("arguments[0].click();", wait_input)
+    time.sleep(10)
+
+
+    #確認張數
+    confirm = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary.btn-green")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", confirm)
+    driver.execute_script("arguments[0].click();", confirm)
+
+    # time.sleep(10)
+    # driver.quit()
+
+login()

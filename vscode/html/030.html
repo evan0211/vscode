@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>亞洲大學歷年成績查詢</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            animation: gradientBG 15s ease infinite;
+            position: relative;
+            overflow-x: auto;
+            background-image: url("../static/09607050c91e286dfb1c0e5bd86cc9b3332.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+
+        }
+
+        /* 浮動粒子背景 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 2s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(118, 75, 162, 0.6)); }
+        }
+
+        .form-section {
+            background: rgba(248, 249, 250, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* 篩選控制區域 */
+        .filter-controls {
+            background: rgba(248, 249, 250, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .grade-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .grade-btn {
+            padding: 8px 15px;
+            border: 2px solid #e1e5e9;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .grade-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .error {
+            color: #dc3545;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #dc3545;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(33, 150, 243, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(33, 150, 243, 0.6); }
+        }
+
+        .summary h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* 不同學年學期的顏色 */
+        .year-113-1 { background: linear-gradient(135deg, #ffebee, #fce4ec); }
+        .year-113-2 { background: linear-gradient(135deg, #e8f5e8, #f1f8e9); }
+        .year-112-1 { background: linear-gradient(135deg, #e3f2fd, #e1f5fe); }
+        .year-112-2 { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+        .year-111-1 { background: linear-gradient(135deg, #f3e5f5, #e8eaf6); }
+        .year-111-2 { background: linear-gradient(135deg, #e0f2f1, #b2dfdb); }
+
+        tr:hover {
+            background: linear-gradient(135deg, #fff9c4, #f7dc6f) !important;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* 成績等第顏色 */
+        .grade-A { color: #4caf50; font-weight: bold; }
+        .grade-B { color: #ff9800; font-weight: bold; }
+        .grade-C { color: #f44336; font-weight: bold; }
+
+        .no-data {
+            text-align: center;
+            color:…
+        }
+            </style>
+</head>
+<body>
+    <!-- 浮動粒子背景 -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <h1>🎓 歷年成績查詢</h1>
+
+        <div class="form-section">
+            <form method="POST" onsubmit="showLoading()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="username">🆔 學號:</label>
+                        <input type="text" id="username" name="username" required="" placeholder="請輸入學號">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">🔒 密碼:</label>
+                        <input type="password" id="password" name="password" required="" placeholder="請輸入密碼">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit">🔍 查詢成績</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 載入動畫 -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>正在查詢成績資料，請等待...</p>
+        </div>
+
+        
+
+        
+    </div>
+
+    <script>
+        // 顯示載入動畫
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        // 表格篩選功能
+        function filterTable() {
+            const input = document.getElementById('courseSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('gradesTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const courseName = rows[i].getAttribute('data-course').toLowerCase();
+                const courseCode = rows[i].getAttribute('data-code').toLowerCase();
+
+                if (courseName.includes(filter) || courseCode.includes(filter)) {
+                    rows[i].style.display = '';
+                    rows[i].style.animation = 'fadeIn 0.5s ease-in';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        // 成績篩選功能
+        function filterGrade(grade) {
+            const buttons = document.querySelectorAll('.grade-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const table = document.getElementById('gradesTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const rowGrade = rows[i].getAttribute('data-grade');
+
+                if (grade === 'all') {
+                    rows[i].style.display = '';
+                } else if (grade === 'A' && rowGrade.startsWith('A')) {
+                    rows[i].style.display = '';
+                } else if (grade === 'B' && rowGrade.startsWith('B')) {
+                    rows[i].style.display = '';
+                } else if (grade === 'C' && (rowGrade.startsWith('C') || rowGrade.startsWith('D') || rowGrade.startsWith('F'))) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        // 表格排序功能
+        let sortDirection = {};
+        function sortTable(columnIndex) {
+            const table = document.getElementById('gradesTable');
+            const tbody = table.getElementsByTagName('tbody')[0];
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+            // 確定排序方向
+            sortDirection[columnIndex] = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+
+            rows.sort((a, b) => {
+                const aValue = a.getElementsByTagName('td')[columnIndex].textContent.trim();
+                const bValue = b.getElementsByTagName('td')[columnIndex].textContent.trim();
+
+                // 數字排序
+                if (!isNaN(aValue) && !isNaN(bValue)) {
+                    return sortDirection[columnIndex] === 'asc' ?
+                        parseFloat(aValue) - parseFloat(bValue) :
+                        parseFloat(bValue) - parseFloat(aValue);
+                }
+
+                // 文字排序
+                return sortDirection[columnIndex] === 'asc' ?
+                    aValue.localeCompare(bValue) :
+                    bValue.localeCompare(aValue);
+            });
+
+            // 重新排列表格
+            rows.forEach(row => tbody.appendChild(row));
+
+            // 更新排序指示器
+            document.querySelectorAll('.sort-indicator').forEach(indicator => {
+                indicator.textContent = '↕';
+            });
+
+            const currentIndicator = document.querySelectorAll('.sort-indicator')[columnIndex];
+            currentIndicator.textContent = sortDirection[columnIndex] === 'asc' ? '↑' : '↓';
+        }
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('#gradesTable tbody tr');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                row.classList.add('fadeIn');
+            });
+        });
+    
+        // 顯示載入動畫
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        // 表格篩選功能
+        function filterTable() {
+            const input = document.getElementById('courseSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('gradesTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const courseName = rows[i].getAttribute('data-course').toLowerCase();
+                const courseCode = rows[i].getAttribute('data-code').toLowerCase();
+
+                if (courseName.includes(filter) || courseCode.includes(filter)) {
+                    rows[i].style.display = '';
+                    rows[i].style.animation = 'fadeIn 0.5s ease-in';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        // 成績篩選功能
+        function filterGrade(grade) {
+            const buttons = document.querySelectorAll('.grade-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const table = document.getElementById('gradesTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const rowGrade = rows[i].getAttribute('data-grade');
+
+                if (grade === 'all') {
+                    rows[i].style.display = '';
+                } else if (grade === 'A' && rowGrade.startsWith('A')) {
+                    rows[i].style.display = '';
+                } else if (grade === 'B' && rowGrade.startsWith('B')) {
+                    rows[i].style.display = '';
+                } else if (grade === 'C' && (rowGrade.startsWith('C') || rowGrade.startsWith('D') || rowGrade.startsWith('F'))) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        // 表格排序功能
+        let sortDirection = {};
+        function sortTable(columnIndex) {
+            const table = document.getElementById('gradesTable');
+            const tbody = table.getElementsByTagName('tbody')[0];
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+            // 確定排序方向
+            sortDirection[columnIndex] = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+
+            rows.sort((a, b) => {
+                const aValue = a.getElementsByTagName('td')[columnIndex].textContent.trim();
+                const bValue = b.getElementsByTagName('td')[columnIndex].textContent.trim();
+
+                // 數字排序
+                if (!isNaN(aValue) && !isNaN(bValue)) {
+                    return sortDirection[columnIndex] === 'asc' ?
+                        parseFloat(aValue) - parseFloat(bValue) :
+                        parseFloat(bValue) - parseFloat(aValue);
+                }
+
+                // 文字排序
+                return sortDirection[columnIndex] === 'asc' ?
+                    aValue.localeCompare(bValue) :
+                    bValue.localeCompare(aValue);
+            });
+
+            // 重新排列表格
+            rows.forEach(row => tbody.appendChild(row));
+
+            // 更新排序指示器
+            document.querySelectorAll('.sort-indicator').forEach(indicator => {
+                indicator.textContent = '↕';
+            });
+
+            const currentIndicator = document.querySelectorAll('.sort-indicator')[columnIndex];
+            currentIndicator.textContent = sortDirection[columnIndex] === 'asc' ? '↑' : '↓';
+        }
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('#gradesTable tbody tr');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                row.classList.add('fadeIn');
+            });
+        });
+    </script>
+
+</body>
+</html>
